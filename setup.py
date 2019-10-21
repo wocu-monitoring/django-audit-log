@@ -45,7 +45,7 @@ extra_requirements = {
 }
 
 setup(
-    name='datapunt-django-auditlog',
+    name='datapunt-django-audit-log',
     version='0.1',
     license='Mozilla Public License 2.0',
 

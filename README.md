@@ -7,7 +7,7 @@ and their corresponding responses to a configurable endpoint.
 
 During the process request phase, the logger is attached to the request. Before 
 returning a response the app can easily provide extra context. In the process
-response phase the auditlog middleware will send the log. 
+response phase the audit_log middleware will send the log. 
 
 
 ## Quick start
@@ -15,15 +15,15 @@ response phase the auditlog middleware will send the log.
 1. Install using pip
 
     ```bash
-    pip install datapunt_auditlog
+    pip install django_audit_log
     ```
    
-2. Add "datapunt_auditlog" to your INSTALLED_APPS:
+2. Add "django_audit_log" to your INSTALLED_APPS:
 
     ```python
     INSTALLED_APPS = [
         ...
-        'datapunt_auditlog',
+        'django_audit_log',
     ]
     ```
 
@@ -32,7 +32,7 @@ response phase the auditlog middleware will send the log.
     ```python
     MIDDLEWARE = [
         ...
-       'audit_log.middleware.AuditLogMiddleware',
+       'django_audit_log.middleware.AuditLogMiddleware',
     ]
     ```
 
@@ -82,7 +82,7 @@ creates the log item by calling `send_log()`.
 Per request it is possible to add optional context info. For a complete
 audit log, you are strongly urged to add more info inside your view.
 
-Adding extra context is quite simple. The auditlog object has been added
+Adding extra context is quite simple. The audit_log object has been added
 to the request by the middleware. Therefore every view can simply access 
 it via the request object.
 

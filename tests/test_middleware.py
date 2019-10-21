@@ -21,7 +21,7 @@ class TestMiddleware(TestCase):
         request = self.request_factory.get('/')
         self.middleware.process_request(request)
 
-        # assert that the auditlog attribute has been added to the request
+        # assert that the audit_log attribute has been added to the request
         self.assertTrue(hasattr(request, 'audit_log'),
                         "Request should have audit_log attribute after passing through middleware")
         self.assertTrue(isinstance(request.audit_log, AuditLogger))
@@ -38,7 +38,7 @@ class TestMiddleware(TestCase):
                                                     "because request.audit_log was already present")
 
     @patch('django_audit_log.middleware.DjangoAuditLogger')
-    def test_process_request_extras(self, mocked_auditlog):
+    def test_process_request_extras(self, mocked_audit_log):
         """
         Assert that the middleware calls the proper methods to add extras
         to the audit log.
@@ -46,12 +46,12 @@ class TestMiddleware(TestCase):
         request = self.request_factory.get('/')
         self.middleware.process_request(request)
 
-        mocked_instance = mocked_auditlog.return_value
+        mocked_instance = mocked_audit_log.return_value
         mocked_instance.set_django_http_request.assert_called_with(request)
         mocked_instance.set_user_from_request.assert_called_with(request)
 
     @patch('django_audit_log.middleware.DjangoAuditLogger')
-    def test_process_response(self, mocked_auditlog):
+    def test_process_response(self, mocked_audit_log):
         """
         Assert that the response has been added to the audit log and
         that the log has been fired.
@@ -64,12 +64,12 @@ class TestMiddleware(TestCase):
         response = View.as_view()(request)
         self.middleware.process_response(request, response)
 
-        mocked_instance = mocked_auditlog.return_value
+        mocked_instance = mocked_audit_log.return_value
         mocked_instance.set_django_http_response.assert_called_with(response)
         mocked_instance.send_log.assert_called()
 
     @patch('django_audit_log.middleware.DjangoAuditLogger')
-    def test_process_response_without_auditlog(self, mocked_auditlog):
+    def test_process_response_without_audit_log(self, mocked_audit_log):
         """
         Assert that when the audit log does not exist, we do not try to call any
         methods on it
@@ -82,6 +82,6 @@ class TestMiddleware(TestCase):
         response = View.as_view()(request)
         self.middleware.process_response(request, response)
 
-        mocked_instance = mocked_auditlog.return_value
+        mocked_instance = mocked_audit_log.return_value
         mocked_instance.set_http_response.assert_not_called()
         mocked_instance.send_log.assert_not_called()
