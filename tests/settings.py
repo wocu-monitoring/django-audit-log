@@ -52,5 +52,3 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/tmp/'
-
-AUDIT_LOG_APP_NAME = 'test'

@@ -2,6 +2,7 @@ from django.contrib.auth.models import Group, User
 from django.http import HttpResponse
 from django.test import RequestFactory, TestCase
 from django.views import View
+
 from django_audit_log.logger import DjangoAuditLogger
 
 

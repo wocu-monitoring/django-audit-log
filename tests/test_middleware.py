@@ -1,10 +1,9 @@
 from unittest.mock import patch
 
 from audit_log.logger import AuditLogger
-
-from django.conf import settings
 from django.test import RequestFactory, TestCase
 from django.views import View
+
 from django_audit_log.middleware import AuditLogMiddleware
 
 
@@ -48,7 +47,6 @@ class TestMiddleware(TestCase):
         self.middleware.process_request(request)
 
         mocked_instance = mocked_auditlog.return_value
-        mocked_instance.set_app_name.assert_called_with(settings.AUDIT_LOG_APP_NAME)
         mocked_instance.set_django_http_request.assert_called_with(request)
         mocked_instance.set_user_from_request.assert_called_with(request)
 

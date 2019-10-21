@@ -2,6 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from django.http import HttpRequest
+
 from django_audit_log.util import get_client_ip
 
 

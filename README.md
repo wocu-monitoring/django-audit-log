@@ -36,16 +36,6 @@ response phase the auditlog middleware will send the log.
     ]
     ```
 
-4. Set the AUDIT_LOG_APP_NAME in the settings.py. This will identify the 
-   app and make it recognisable in the logs. Also specify the 
-   AUDIT_LOG_LOGSTASH_HOST and AUDIT_LOG_LOGSTASH_PORT. This is where the 
-   logs will be written to.
-    ```python
-    AUDIT_LOG_APP_NAME = os.getenv('AUDIT_LOG_APP_NAME')
-    AUDIT_LOG_LOGSTASH_HOST = os.getenv('AUDIT_LOG_APP_NAME')
-    AUDIT_LOG_LOGSTASH_PORT = os.getenv('AUDIT_LOG_APP_NAME')
-    ```
-
 At this point all requests/responses will be logged. For providing extra context
 (which you are strongly urged to do so), see next chapters.
 
@@ -55,9 +45,6 @@ By default the audit log sends the following json structure per request:
 
 ```json
 {
-  "app": {
-    "name": "AUDIT_LOG_APP_NAME"
-  },
   "http_request": {
     "method": "get|post|head|options|etc..",
     "url": "https://datapunt.amsterdam.nl?including=querystring",
@@ -83,7 +70,7 @@ By default the audit log sends the following json structure per request:
     
 Each json entry is set by its corresponding method. In this case, 
 the middleware sets them automatically by calling
-`set_app_name()`, `set_http_request()` and `set_user_fom_request()` 
+`set_http_request()` and `set_user_fom_request()` 
 in the process_request method. In the process_response method the
 last data is set by invoking `set_http_response()`.
 
