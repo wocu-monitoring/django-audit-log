@@ -1,6 +1,6 @@
 
 
-# DataPunt Audit Log
+# DataPunt Django Audit Log
 
 DataPunt Audit Log is a simple Django app that will log all incoming requests
 and their corresponding responses to a configurable endpoint. 
