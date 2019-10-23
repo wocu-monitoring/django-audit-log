@@ -1,9 +1,9 @@
 from unittest.mock import patch
 
-from audit_log.logger import AuditLogger
 from django.test import RequestFactory, TestCase
 from django.views import View
 
+from audit_log.logger import AuditLogger
 from django_audit_log.middleware import AuditLogMiddleware
 
 
@@ -66,7 +66,7 @@ class TestMiddleware(TestCase):
 
         mocked_instance = mocked_audit_log.return_value
         mocked_instance.set_django_http_response.assert_called_with(response)
-        mocked_instance.send_log.assert_called()
+        mocked_instance.send_log.assert_called_with()
 
     @patch('django_audit_log.middleware.DjangoAuditLogger')
     def test_process_response_without_audit_log(self, mocked_audit_log):

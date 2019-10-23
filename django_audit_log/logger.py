@@ -1,6 +1,6 @@
-from audit_log.logger import AuditLogger
 from django.http import HttpRequest, HttpResponse
 
+from audit_log.logger import AuditLogger
 from django_audit_log.util import get_client_ip
 
 

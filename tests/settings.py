@@ -6,7 +6,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
-    'audit_log'
+    'django_audit_log'
 ]
 
 
@@ -18,7 +18,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'audit_log.django_framework.middleware.AuditLogMiddleware',
+    'django_audit_log.middleware.AuditLogMiddleware',
 ]
 
 ROOT_URLCONF = 'django.urls'
