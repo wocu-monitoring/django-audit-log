@@ -34,7 +34,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 
 install_requirements = [
-    'django'
+    'django',
+    'datapunt-audit-log'
 ]
 
 test_requirements = [
