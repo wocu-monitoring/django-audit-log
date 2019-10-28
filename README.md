@@ -1,4 +1,6 @@
 
+For the Python only implementation (which is used by this library) see https://github.com/Amsterdam/python-audit-log
+
 
 # DataPunt Django Audit Log
 
