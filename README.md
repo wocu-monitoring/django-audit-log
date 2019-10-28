@@ -17,7 +17,7 @@ response phase the audit_log middleware will send the log.
 1. Install using pip
 
     ```bash
-    pip install django_audit_log
+    pip install datapunt_django_audit_log
     ```
    
 2. Add "django_audit_log" to your INSTALLED_APPS:
