@@ -4,6 +4,8 @@ import sys
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
 
+import django_audit_log
+
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
@@ -46,7 +48,7 @@ extra_requirements = {
 
 setup(
     name='datapunt-django-audit-log',
-    version='0.1',
+    version=django_audit_log.__version__,
     license='Mozilla Public License 2.0',
 
     author='Datapunt Amsterdam',
