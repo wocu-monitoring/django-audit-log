@@ -6,8 +6,7 @@ PYTHON = python3
 help:                           ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-release:                        ## Test, create a distribution and upload it to pypi
-	clean test dist
+release: clean test dist        ## Test, create a distribution and upload it to pypi
 	twine upload dist/*
 
 dist:                           ## Create a distribution
