@@ -6,7 +6,8 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
-    'django_audit_log'
+    'django_audit_log',
+    'rest_framework',
 ]
 
 

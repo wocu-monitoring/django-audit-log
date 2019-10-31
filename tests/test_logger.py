@@ -13,11 +13,11 @@ class TestLogger(TestCase):
 
     def test_set_django_http_request(self):
         audit_log = DjangoAuditLogger()
-        request = self.request_factory.get("/",  SERVER_NAME="localhost", HTTP_USER_AGENT='test_agent')
+        request = self.request_factory.get("/foo/bar?querystr=value",  SERVER_NAME="localhost", HTTP_USER_AGENT='test_agent')
         audit_log.set_django_http_request(request)
 
         self.assertEqual(audit_log.http_request['method'], 'GET')
-        self.assertEqual(audit_log.http_request['url'], 'http://localhost/')
+        self.assertEqual(audit_log.http_request['url'], 'http://localhost/foo/bar?querystr=value')
         self.assertEqual(audit_log.http_request['user_agent'], 'test_agent')
 
     def test_set_django_http_response(self):
