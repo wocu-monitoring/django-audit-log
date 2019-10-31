@@ -7,8 +7,12 @@ if [ "$1" != "major" ] && [ "$1" != "minor" ] && [ "$1" != "patch" ]
 fi
 
 current_version=$(bump2version --dry-run --list $1 | grep "current_version=" | sed -r s,"^.*=",,) || exit;
+if [ -z "$current_version" ]
+then
+  exit 1;
+fi
+
 changes=$(git log $current_version..HEAD --pretty=format:'- %s')
-git add Changelog.md
 
 next_version=$(bump2version --list $1 | grep "new_version=" | sed -r s,"^.*=",,) || exit;
 today=$(date +'%d-%m-%Y')
@@ -27,4 +31,4 @@ $changes
 ${current_changelog}
 EOF
 
-echo "\nUpdated to version ${next_version}. \nMake sure to double check the Changelog.\n"
+echo "\nUpdated to version ${next_version}. \nMake sure to update check the Changelog and git commit --amend to add it to the release commit.\n"
