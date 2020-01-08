@@ -1,4 +1,13 @@
 
+## 0.3.0 (08-01-2020)
+
+### Note worthy changes
+- Allow to set log handler, formatter and name in settings
+
+### Backwards incompatible changes
+- None
+
+
 ## 0.2.0 (31-10-2019)
 
 ### Note worthy changes

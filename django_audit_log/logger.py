@@ -1,10 +1,35 @@
+import logging
+
 from django.http import HttpRequest, HttpResponse
 
 from audit_log.logger import AuditLogger
-from django_audit_log.util import get_client_ip
+from django_audit_log import app_settings
+from django_audit_log.util import get_client_ip, import_callable
 
 
 class DjangoAuditLogger(AuditLogger):
+
+    def get_logger_name(self) -> str:
+        logger_name = app_settings.LOGGER_NAME
+        if not logger_name:
+            return super().get_logger_name()
+        return logger_name
+
+    def get_log_handler(self) -> logging.Handler:
+        log_handler_path = app_settings.LOG_HANDLER_CALLABLE_PATH
+        if not log_handler_path:
+            return super().get_log_handler()
+
+        log_handler_callable = import_callable(log_handler_path)
+        return log_handler_callable()
+
+    def get_log_formatter(self) -> logging.Formatter:
+        log_formatter_path = app_settings.LOG_FORMATTER_CALLABLE_PATH
+        if not log_formatter_path:
+            return super().get_log_formatter()
+
+        log_formatter_callable = import_callable(log_formatter_path)
+        return log_formatter_callable()
 
     def set_django_http_request(self, request: HttpRequest) -> 'DjangoAuditLogger':
         self.set_http_request(
