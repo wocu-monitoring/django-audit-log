@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponse
 from django.test import RequestFactory, TestCase
@@ -11,9 +13,36 @@ class TestLogger(TestCase):
     def setUp(self):
         self.request_factory = RequestFactory()
 
+    @patch('django_audit_log.app_settings.LOGGER_NAME', 'test_logger_name')
+    def test_get_logger_name(self):
+        self.assertEqual(DjangoAuditLogger().get_logger_name(), 'test_logger_name')
+
+    def test_get_logger_name_default(self):
+        self.assertEqual(DjangoAuditLogger().get_logger_name(), 'audit_log')
+
+    @patch('django_audit_log.logger.AuditLogger.init_logger')
+    @patch('django_audit_log.app_settings.LOG_HANDLER_CALLABLE_PATH', 'tests.test_logger.get_log_handler')
+    def test_get_log_handler(self, mocked_init_logger):
+        self.assertEqual(DjangoAuditLogger().get_log_handler(), get_log_handler())
+
+    @patch('django_audit_log.logger.AuditLogger.get_log_handler')
+    def test_get_log_handler_default(self, mocked_get_log_handler):
+        DjangoAuditLogger().get_log_handler()
+        mocked_get_log_handler.assert_called_with()
+
+    @patch('django_audit_log.app_settings.LOG_FORMATTER_CALLABLE_PATH', 'tests.test_logger.get_log_formatter')
+    def test_get_log_formatter(self):
+        self.assertEqual(DjangoAuditLogger().get_log_formatter(), get_log_formatter())
+
+    @patch('django_audit_log.logger.AuditLogger.get_log_formatter')
+    def test_get_log_formatter_default(self, mocked_get_log_formatter):
+        DjangoAuditLogger().get_log_formatter()
+        mocked_get_log_formatter.assert_called_with()
+
     def test_set_django_http_request(self):
         audit_log = DjangoAuditLogger()
-        request = self.request_factory.get("/foo/bar?querystr=value",  SERVER_NAME="localhost", HTTP_USER_AGENT='test_agent')
+        request = self.request_factory.get("/foo/bar?querystr=value",
+                                           SERVER_NAME="localhost", HTTP_USER_AGENT='test_agent')
         audit_log.set_django_http_request(request)
 
         self.assertEqual(audit_log.http_request['method'], 'GET')
@@ -86,3 +115,11 @@ class TestLogger(TestCase):
         # 'content-type'.
         for header, expected_value in expected_headers.items():
             self.assertEqual(headers[header], expected_value)
+
+
+def get_log_handler():
+    return 'test_handler'
+
+
+def get_log_formatter():
+    return 'test_formatter'

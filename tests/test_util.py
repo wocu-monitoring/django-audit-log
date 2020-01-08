@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from django.http import HttpRequest
 
-from django_audit_log.util import get_client_ip
+from django_audit_log.util import get_client_ip, import_callable
 
 
 class TestUtil(TestCase):
@@ -22,3 +22,12 @@ class TestUtil(TestCase):
     def test_get_client_ip_exception(self, mocked_logger):
         self.assertEqual(get_client_ip(request=None), 'failed to get ip')
         mocked_logger.assert_called_with('Failed to get ip for audit log', exc_info=True)
+
+    def test_import_callable(self):
+        path = 'tests.test_util.callable_for_test'
+        callable = import_callable(path)
+        self.assertEqual(callable(), 'success')
+
+
+def callable_for_test():
+    return 'success'

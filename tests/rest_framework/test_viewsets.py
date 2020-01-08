@@ -1,11 +1,11 @@
 from unittest import mock
 
 from django.contrib.auth.models import User
-from django.test import TestCase, RequestFactory
-from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.response import Response
+from django.test import RequestFactory, TestCase
 
 from django_audit_log.rest_framework.viewsets import AuditLogReadOnlyViewSet, AuditLogViewSet
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.response import Response
 
 
 class DynamicReadOnlyViewSet(AuditLogReadOnlyViewSet):
@@ -96,7 +96,8 @@ class TestAuditLogReadOnlyViewset(TestCase):
     @mock.patch('rest_framework.mixins.ListModelMixin.list')
     def test_list_without_results_with_filter(self, mocked_list):
         mocked_list.return_value = Response(data=['test1', 'test2'])
-        view_set = DynamicReadOnlyViewSet(queryset=User.objects.all(), filter_backends=[SearchFilter], search_fields=['email'])
+        view_set = DynamicReadOnlyViewSet(
+            queryset=User.objects.all(), filter_backends=[SearchFilter], search_fields=['email'])
         request = self.factory.get('/')
         request.query_params = {'search': 'test'}
 

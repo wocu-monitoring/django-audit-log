@@ -1,3 +1,4 @@
+import importlib
 import logging
 
 from django.http import HttpRequest
@@ -15,3 +16,8 @@ def get_client_ip(request: HttpRequest) -> str:
         logger = logging.getLogger(__name__)
         logger.warning('Failed to get ip for audit log', exc_info=True)
         return 'failed to get ip'
+
+
+def import_callable(path):
+    module, method = path.rsplit('.', 1)
+    return getattr(importlib.import_module(module), method)
