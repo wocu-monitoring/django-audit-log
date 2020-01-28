@@ -85,3 +85,13 @@ class TestMiddleware(TestCase):
         mocked_instance = mocked_audit_log.return_value
         mocked_instance.set_http_response.assert_not_called()
         mocked_instance.send_log.assert_not_called()
+
+    @patch('django_audit_log.middleware.app_settings.EXEMPT_URLS', [r'foo/bar$'])
+    def test_exempt_request(self):
+        middleware = AuditLogMiddleware()
+
+        request = self.request_factory.get('/foo/bar')
+        self.assertTrue(middleware.exempt_request(request))
+
+        request = self.request_factory.get('/foo/bar2')
+        self.assertFalse(middleware.exempt_request(request))
