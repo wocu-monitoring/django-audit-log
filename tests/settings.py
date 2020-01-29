@@ -53,3 +53,5 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/tmp/'
+
+AUDIT_LOG_EXEMPT_URLS = []

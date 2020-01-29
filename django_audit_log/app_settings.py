@@ -9,3 +9,13 @@ LOG_HANDLER_CALLABLE_PATH = getattr(settings, 'AUDIT_LOG_HANDLER_CALLABLE_PATH',
 
 # Log formatter that determines log formatting. Leave None to use python-audit-log default (AuditLogFormatter)
 LOG_FORMATTER_CALLABLE_PATH = getattr(settings, 'AUDIT_LOG_FORMATTER_CALLABLE_PATH', None)
+
+# List of url names that will not be logged (e.g. health urls)
+# Default: [] (Empty list)
+
+# If a URL path matches a regular expression in this list, the request will not be redirected to HTTPS.
+# The AuditLogMiddleware strips leading slashes from URL paths, so patterns shouldn’t include them, e.g.
+# AUDIT_LOG_EXEMPT_URLS = [r'^foo/bar/$', …].
+EXEMPT_URLS = getattr(settings, 'AUDIT_LOG_EXEMPT_URLS', [])
+
+assert type(EXEMPT_URLS) is list, "EXEMPT_URLS must be a list"
