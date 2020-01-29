@@ -50,6 +50,17 @@ class TestMiddleware(TestCase):
         mocked_instance.set_django_http_request.assert_called_with(request)
         mocked_instance.set_user_from_request.assert_called_with(request)
 
+    @patch('django_audit_log.middleware.app_settings.EXEMPT_URLS', [r'foo/bar$'])
+    def test_process_request_exempty(self):
+        """
+        Test and assert that the audit log will not be attached to the request if the
+        url in the request is exempty from audit logging
+        """
+        middleware = AuditLogMiddleware()   # we must initialize here because we override app_settings
+        request = self.request_factory.get('/foo/bar')
+        middleware.process_request(request)
+        self.assertFalse(hasattr(request, 'audit_log'))
+
     @patch('django_audit_log.middleware.DjangoAuditLogger')
     def test_process_response(self, mocked_audit_log):
         """
@@ -88,7 +99,7 @@ class TestMiddleware(TestCase):
 
     @patch('django_audit_log.middleware.app_settings.EXEMPT_URLS', [r'foo/bar$'])
     def test_exempt_request(self):
-        middleware = AuditLogMiddleware()
+        middleware = AuditLogMiddleware()   # we must initialize here because we override app_settings
 
         request = self.request_factory.get('/foo/bar')
         self.assertTrue(middleware.exempt_request(request))
