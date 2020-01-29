@@ -1,4 +1,13 @@
 
+## 0.4.0 (29-01-2020)
+
+### Note worthy changes
+- Implemented AUDIT_LOG_EXEMPT_URLS to allow certain urls to be ignored by the audit logger
+
+### Backwards incompatible changes
+- None
+
+
 ## 0.3.0 (08-01-2020)
 
 ### Note worthy changes
