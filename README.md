@@ -54,6 +54,15 @@ filters, results and executed actions (see - [Django Rest Framework](#django-res
         queryset = SomeModel.objects.all()
     ```
 
+5. Set the AUDIT_LOG_EXEMPT_URLS setting to make sure certain urls will not be logged 
+(e.g. health check urls). 
+
+    ```python
+    # If a URL path matches a regular expression in this list, the request will not be redirected to HTTPS.
+    # The AuditLogMiddleware strips leading slashes from URL paths, so patterns shouldn’t include them, e.g.
+    # [r'foo/bar$']
+    AUDIT_LOG_EXEMPT_URLS = []
+    ```
 
 
 At this point all requests/responses will be logged. For providing extra context
