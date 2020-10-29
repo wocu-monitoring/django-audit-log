@@ -61,7 +61,7 @@ install_requirements = [
 
 test_requirements = [
     'pytest',
-    'pytest-cov'
+    'pytest-cov',
 ]
 
 extra_requirements = {

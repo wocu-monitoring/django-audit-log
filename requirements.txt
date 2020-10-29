@@ -1,0 +1,6 @@
+tox
+bump2version
+twine
+wheel
+black
+isort
