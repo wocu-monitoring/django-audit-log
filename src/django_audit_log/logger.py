@@ -8,7 +8,6 @@ from django_audit_log.util import get_client_ip, import_callable
 
 
 class DjangoAuditLogger(AuditLogger):
-
     def get_logger_name(self) -> str:
         logger_name = app_settings.LOGGER_NAME
         if not logger_name:
@@ -35,7 +34,9 @@ class DjangoAuditLogger(AuditLogger):
         self.set_http_request(
             method=request.method,
             url=request.build_absolute_uri(),
-            user_agent=request.META.get('HTTP_USER_AGENT', '?') if request.META else '?'
+            user_agent=request.META.get('HTTP_USER_AGENT', '?')
+            if request.META
+            else '?',
         )
         return self
 
@@ -44,20 +45,24 @@ class DjangoAuditLogger(AuditLogger):
         self.set_http_response(
             status_code=getattr(response, 'status_code', ''),
             reason=getattr(response, 'reason_phrase', ''),
-            headers=headers
+            headers=headers,
         )
         return self
 
-    def set_user_from_request(self, request: HttpRequest, realm='') -> 'DjangoAuditLogger':
+    def set_user_from_request(
+        self, request: HttpRequest, realm=''
+    ) -> 'DjangoAuditLogger':
         user = request.user if hasattr(request, 'user') else None
         roles = list(user.groups.values_list('name', flat=True)) if user else []
         self.set_user(
             authenticated=user.is_authenticated if user else False,
-            provider=request.session.get('_auth_user_backend', '') if hasattr(request, 'session') else '',
+            provider=request.session.get('_auth_user_backend', '')
+            if hasattr(request, 'session')
+            else '',
             realm=realm,
             email=getattr(user, 'email', '') if user else '',
             roles=roles,
-            ip=get_client_ip(request)
+            ip=get_client_ip(request),
         )
         return self
 
