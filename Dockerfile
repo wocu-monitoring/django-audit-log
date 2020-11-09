@@ -11,8 +11,7 @@ RUN mkdir /app/.pyenv
 
 WORKDIR /app
 
-RUN apt update
-RUN apt-get install -y vim
+RUN apt-get update && apt-get install -y vim && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/pyenv/pyenv.git /app/.pyenv
 ENV PYENV_ROOT=/app/.pyenv
