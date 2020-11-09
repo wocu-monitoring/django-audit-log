@@ -8,7 +8,6 @@ from django_audit_log.logger import DjangoAuditLogger
 
 
 class AuditLogMiddleware(MiddlewareMixin):
-
     def __init__(self, get_response=None):
         super().__init__(get_response)
         self.redirect_exempt = [re.compile(r) for r in app_settings.EXEMPT_URLS]
@@ -20,7 +19,9 @@ class AuditLogMiddleware(MiddlewareMixin):
             audit_log.set_user_from_request(request)
             request.audit_log = audit_log
 
-    def process_response(self, request: HttpRequest, response: HttpResponse) -> HttpResponse:
+    def process_response(
+        self, request: HttpRequest, response: HttpResponse
+    ) -> HttpResponse:
         if hasattr(request, 'audit_log'):
             audit_log = request.audit_log
             audit_log.set_django_http_response(response)

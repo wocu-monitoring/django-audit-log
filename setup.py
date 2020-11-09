@@ -1,10 +1,9 @@
+import codecs
 import os
 import sys
 
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
-
-import django_audit_log
 
 
 class PyTest(TestCommand):
@@ -26,6 +25,28 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
+def read(rel_path):
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
+        return fp.read()
+
+
+def get_version(rel_path):
+    """
+    Read the package version from a single source.
+
+    See https://packaging.python.org/guides/single-sourcing-package-version/#single-sourcing-the-package-version
+    :param rel_path:
+    :return:
+    """
+    for line in read(rel_path).splitlines():
+        if line.startswith('__version_info__'):
+            # transform __version_info__ = (x, y, z) to "x.y.z"
+            return line.split('(')[1].split(')')[0].replace(', ', '.')
+    else:
+        raise RuntimeError("Unable to find version string.")
+
+
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
 
@@ -40,7 +61,7 @@ install_requirements = [
 
 test_requirements = [
     'pytest',
-    'pytest-cov'
+    'pytest-cov',
 ]
 
 extra_requirements = {
@@ -49,7 +70,7 @@ extra_requirements = {
 
 setup(
     name='datapunt-django-audit-log',
-    version=django_audit_log.__version__,
+    version=get_version('src/django_audit_log/__init__.py'),
     license='Mozilla Public License 2.0',
 
     author='Datapunt Amsterdam',
@@ -60,7 +81,8 @@ setup(
     long_description_content_type="text/markdown",
     url='https://github.com/Amsterdam/auditlog',
 
-    packages=find_packages(),
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
     install_requires=install_requirements,
 
     cmdclass={'test': PyTest},
