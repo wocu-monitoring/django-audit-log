@@ -34,9 +34,9 @@ class DjangoAuditLogger(AuditLogger):
         self.set_http_request(
             method=request.method,
             url=request.build_absolute_uri(),
-            user_agent=request.META.get('HTTP_USER_AGENT', '?')
+            user_agent=request.META.get('HTTP_USER_AGENT', 'unknown')
             if request.META
-            else '?',
+            else 'unknown',
         )
         return self
 
