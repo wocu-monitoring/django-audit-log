@@ -63,6 +63,7 @@ class DjangoAuditLogger(AuditLogger):
             email=getattr(user, 'email', '') if user else '',
             roles=roles,
             ip=get_client_ip(request),
+            username=request.user.username if user and user.is_authenticated else '',
         )
         return self
 
