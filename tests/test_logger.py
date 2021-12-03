@@ -79,7 +79,6 @@ class TestLogger(TestCase):
         self.assertEqual(audit_log.user['ip'], '127.0.0.1')
         self.assertEqual(audit_log.user['username'], 'username')
 
-
     def test_extras_user_from_request(self):
         user = User.objects.create_user(username='username', email='username@host.com')
         group, _ = Group.objects.get_or_create(name='testgroup')
