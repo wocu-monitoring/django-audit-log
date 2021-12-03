@@ -77,6 +77,8 @@ class TestLogger(TestCase):
         self.assertEqual(audit_log.user['email'], 'username@host.com')
         self.assertEqual(audit_log.user['roles'], ['testgroup'])
         self.assertEqual(audit_log.user['ip'], '127.0.0.1')
+        self.assertEqual(audit_log.user['username'], 'username')
+
 
     def test_extras_user_from_request(self):
         user = User.objects.create_user(username='username', email='username@host.com')
@@ -97,6 +99,7 @@ class TestLogger(TestCase):
         self.assertEqual(extras['user']['email'], 'username@host.com')
         self.assertEqual(extras['user']['roles'], ['testgroup'])
         self.assertEqual(extras['user']['ip'], '127.0.0.1')
+        self.assertEqual(extras['user']['username'], 'username')
 
     def test_get_headers_from_response(self):
         expected_headers = {
