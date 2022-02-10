@@ -31,21 +31,6 @@ def read(rel_path):
         return fp.read()
 
 
-def get_version(rel_path):
-    """
-    Read the package version from a single source.
-
-    See https://packaging.python.org/guides/single-sourcing-package-version/#single-sourcing-the-package-version
-    :param rel_path:
-    :return:
-    """
-    for line in read(rel_path).splitlines():
-        if line.startswith('__version_info__'):
-            # transform __version_info__ = (x, y, z) to "x.y.z"
-            return line.split('(')[1].split(')')[0].replace(', ', '.')
-    else:
-        raise RuntimeError("Unable to find version string.")
-
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
     README = readme.read()
@@ -70,7 +55,7 @@ extra_requirements = {
 
 setup(
     name='datapunt-django-audit-log',
-    version=get_version('src/django_audit_log/__init__.py'),
+    version='0.4.1'),
     license='Mozilla Public License 2.0',
 
     author='Datapunt Amsterdam',
